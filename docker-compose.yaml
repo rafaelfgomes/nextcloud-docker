@@ -27,7 +27,7 @@ services:
       - database
     volumes:
       - ./data:/var/www/html
-      - ${EXTERNAL_DATA_FOLDER}:/nas
+      - ${EXTERNAL_DATA_FOLDER}:/data
     environment:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
