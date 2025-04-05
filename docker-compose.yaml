@@ -1,5 +1,6 @@
 volumes:
   db:
+    name: nextcloud-db
 
 services:
   database:
@@ -50,6 +51,8 @@ services:
     depends_on:
       - database
       - redis
+    networks:
+      - net
 
 networks:
   net:
