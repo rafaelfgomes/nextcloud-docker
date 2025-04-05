@@ -16,6 +16,15 @@ services:
       - MYSQL_USER=${MYSQL_USER}
     networks:
       - net
+  
+  redis:
+    image: redis
+    container_name: nextcloud-redis
+    restart: always
+    volumes:
+      - ./redis:/usr/local/etc/redis
+    networks:
+      - net
 
   app:
     image: nextcloud
@@ -25,6 +34,7 @@ services:
       - ${NEXTCLOUD_PORT:-8080}:80
     links:
       - database
+      - redis
     volumes:
       - ./data:/var/www/html
       - ${EXTERNAL_DATA_FOLDER}:/data
@@ -33,6 +43,10 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_HOST=database
+      - NEXTCLOUD_TRUSTED_DOMAINS=${TRUSTED_DOMAINS}
+      - REDIS_HOST=redis
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
     networks:
       - net
 
