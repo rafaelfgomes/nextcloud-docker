@@ -1,0 +1,20 @@
+services:
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./config:/config
+      - ${DATA_FOLDER}:/data
+    ports:
+      - ${NEXTCLOUD_HTTPS_PORT:-443}:443
+    restart: unless-stopped
+    networks:
+      - net
+
+networks:
+  net:
+    external: false
