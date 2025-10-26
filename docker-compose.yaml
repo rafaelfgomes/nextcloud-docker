@@ -1,7 +1,3 @@
-volumes:
-  db:
-    name: nextcloud-db
-
 services:
   database:
     image: mariadb
@@ -23,7 +19,7 @@ services:
     container_name: nextcloud-redis
     restart: always
     volumes:
-      - ./redis:/usr/local/etc/redis
+      - redis:/usr/local/etc/redis
     networks:
       - net
 
@@ -43,8 +39,8 @@ services:
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
     volumes:
-      - ./config:/config
-      - ./data:/data
+      - config:/config
+      - data:/data
       - ${EXTERNAL_DATA_FOLDER}:/storage
     ports:
       - ${NEXTCLOUD_PORT:-443}:443
@@ -58,3 +54,13 @@ services:
 networks:
   net:
     external: false
+
+volumes:
+  db:
+    name: nextcloud-db-data
+  config:
+    name: nextcloud-config-data
+  data:
+    name: nextcloud-app-data
+  redis:
+    name: nextcloud-redis-data
