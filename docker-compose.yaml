@@ -23,8 +23,19 @@ services:
     networks:
       - net
 
+  cron:
+    image: elestio/nextcloud
+    container_name: nextcloud-cron
+    restart: always
+    volumes:
+      - nc-root:/var/www/html
+      - apps:/var/www/html/custom_apps
+      - config:/var/www/html/config
+      - ${NC_ACCOUNTS_FOLDER}:/var/www/html/data
+    entrypoint: /cron.sh
+
   nextcloud:
-    image: lscr.io/linuxserver/nextcloud
+    image: elestio/nextcloud
     container_name: nextcloud-app
     environment:
       - PUID=${PUID}
@@ -39,9 +50,10 @@ services:
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
     volumes:
-      - config:/config
-      - data:/data
-      - ${EXTERNAL_DATA_FOLDER}:/storage
+      - nc-root:/var/www/html
+      - apps:/var/www/html/custom_apps
+      - config:/var/www/html/config
+      - ${NC_ACCOUNTS_FOLDER}:/var/www/html/data
     ports:
       - ${NEXTCLOUD_PORT:-443}:443
     restart: unless-stopped
@@ -60,7 +72,9 @@ volumes:
     name: nextcloud-db-data
   config:
     name: nextcloud-config-data
-  data:
-    name: nextcloud-app-data
+  apps:
+    name: nextcloud-apps-data
+  nc-root:
+    name: nextcloud-root-data
   redis:
     name: nextcloud-redis-data
