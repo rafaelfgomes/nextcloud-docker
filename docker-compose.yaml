@@ -7,19 +7,10 @@ services:
     volumes:
       - ${NC_DATABASE_FOLDER:-./nc-database}:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
-    networks:
-      - net
-
-  redis:
-    image: redis
-    container_name: nextcloud-redis
-    restart: always
-    volumes:
-      - ${NC_REDIS_CONFIG_FOLDER:-./nc-redis-config}:/usr/local/etc/redis
     networks:
       - net
 
@@ -33,28 +24,29 @@ services:
       - ${NC_CONFIG_FOLDER:-./nc-config}:/var/www/html/config
       - ${NC_ACCOUNTS_FOLDER:-./nc-data}:/var/www/html/data
     entrypoint: /cron.sh
+    networks:
+      - net
 
   nextcloud:
     image: elestio/nextcloud
     container_name: nextcloud-app
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TIMEZONE:-UTC}
-      - REDIS_HOST=redis
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_HOST=database
       - OVERWRITEPROTOCOL=https
-      - TRUSTED_DOMAINS=${TRUSTED_DOMAINS}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${TRUSTED_DOMAINS}
     volumes:
       - ${NC_ROOT_FOLDER:-./nc-root}:/var/www/html
       - ${NC_CUSTOM_APPS_FOLDER:-./nc-custom_apps}:/var/www/html/custom_apps
       - ${NC_CONFIG_FOLDER:-./nc-config}:/var/www/html/config
       - ${NC_ACCOUNTS_FOLDER:-./nc-data}:/var/www/html/data
     ports:
-      - ${NEXTCLOUD_PORT:-443}:443
+      - ${NEXTCLOUD_PORT:-80}:80
     restart: unless-stopped
     depends_on:
       - database
-      - redis
     networks:
       - net
 
