@@ -35,7 +35,7 @@ services:
       - ${NC_CONFIG_FOLDER:-./nc-config}:/config
       - ${NC_ACCOUNTS_FOLDER:-./nc-data}:/data
     ports:
-      - ${NEXTCLOUD_PORT:-80}:80
+      - ${NEXTCLOUD_PORT:-443}:443
     restart: unless-stopped
     depends_on:
       - database
