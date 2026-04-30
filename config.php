@@ -1,15 +1,23 @@
 <?php
-
-$CONFIG = [
+$CONFIG = array (
   'datadirectory' => '/data',
   'instanceid' => 'octi7krkslgw',
   'passwordsalt' => 'BAr6s5ElswyZNp3zLTmWqH2e/V6aUv',
   'secret' => '9ntFUgep5zF0XDXVQ5CxNc7EyKyxzM0ZFzkcMaHYGuw4Rs58',
-  'trusted_domains' => explode(',', getenv('TRUSTED_DOMAINS')),
-  'trusted_proxies' => [0 => getenv('REVERSE_PROXY_IP')],
+  'trusted_domains' =>
+  array (
+    0 => '192.168.10.110',
+    1 => 'cloud.rgtech.dev.br',
+    2 => 'cloud.rgtech.dev.br:8443',
+  ),
+  'trusted_proxies' =>
+  array (
+    0 => '192.168.10.1',
+  ),
   'dbtype' => 'mysql',
-  'overwrite.cli.url' => 'https://' . getenv('EXTERNAL_HOST'),
-  'overwritehost' => getenv('EXTERNAL_HOST'),
+  'version' => '33.0.2',
+  'overwrite.cli.url' => 'https://cloud.rgtech.dev.br:8443',
+  'overwritehost' => 'cloud.rgtech.dev.br:8443',
   'overwriteprotocol' => 'https',
   'dbname' => 'nextcloud',
   'dbhost' => 'database:3306',
@@ -22,13 +30,15 @@ $CONFIG = [
   'filelocking.enabled' => true,
   'memcache.locking' => '\\OC\\Memcache\\APCu',
   'upgrade.disable-web' => true,
-  'redis' => [
+  'redis' => 
+  array (
     'host' => 'redis',
     'port' => 6379,
     'password' => 'passwd',
-  ],
+  ),
   'enable_previews' => true,
-  'enabledPreviewProviders' => [
+  'enabledPreviewProviders' => 
+  array (
     0 => 'OC\\Preview\\PNG',
     1 => 'OC\\Preview\\JPEG',
     2 => 'OC\\Preview\\GIF',
@@ -40,7 +50,7 @@ $CONFIG = [
     8 => 'OC\\Preview\\OpenDocument',
     9 => 'OC\\Preview\\Krita',
     10 => 'OC\\Preview\\HEIC',
-  ],
+  ),
   'loglevel' => 2,
   'maintenance' => false,
-];
+);
