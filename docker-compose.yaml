@@ -23,6 +23,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIMEZONE}
+      - REVERSE_PROXY_IP=${REVERSE_PROXY_IP}
     volumes:
       - ${NC_CONFIG_FOLDER:-./nc-config}:/config
       - ${NC_ACCOUNTS_FOLDER:-./nc-data}:/data
