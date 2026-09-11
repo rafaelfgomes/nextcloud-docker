@@ -8,16 +8,15 @@ $CONFIG = array (
   array (
     0 => '192.168.10.110',
     1 => 'cloud.rgtech.dev.br',
-    2 => 'cloud.rgtech.dev.br:8443',
   ),
   'trusted_proxies' =>
   array (
-    0 => '192.168.10.1',
+    0 => '192.168.10.90',
   ),
   'dbtype' => 'mysql',
-  'version' => '33.0.2',
-  'overwrite.cli.url' => 'https://cloud.rgtech.dev.br:8443',
-  'overwritehost' => 'cloud.rgtech.dev.br:8443',
+  'version' => '34.0.4',
+  'overwrite.cli.url' => 'https://cloud.rgtech.dev.br',
+  'overwritehost' => 'cloud.rgtech.dev.br',
   'overwriteprotocol' => 'https',
   'dbname' => 'nextcloud',
   'dbhost' => 'database:3306',
