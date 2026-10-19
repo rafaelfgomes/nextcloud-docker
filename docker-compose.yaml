@@ -14,20 +14,19 @@ services:
       - MYSQL_USER=${MYSQL_USER}
     networks:
       local:
+        ipv4_address: 172.${SUBNET_NUMBER:-20}.0.2
 
   nextcloud:
     image: lscr.io/linuxserver/nextcloud
     container_name: nextcloud-app
     hostname: nextcloud
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
-      - REVERSE_PROXY_IP=${REVERSE_PROXY_IP}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TIMEZONE:-Etc/UTC}
     volumes:
       - ${NC_CONFIG_FOLDER:-./nc-config}:/config
       - ${NC_ACCOUNTS_FOLDER:-./nc-data}:/data
-      - ./config.php:/config/www/nextcloud/config/config.php
     ports:
       - ${NEXTCLOUD_PORT:-443}:443
     restart: unless-stopped
@@ -36,6 +35,7 @@ services:
       - redis
     networks:
       local:
+        ipv4_address: 172.${SUBNET_NUMBER:-20}.0.3
       external:
         ipv4_address: ${NEXTCLOUD_IP}
 
@@ -49,6 +49,7 @@ services:
       - ${NC_REDIS_FOLDER:-./nc-redis}:/data
     networks:
       local:
+        ipv4_address: 172.${SUBNET_NUMBER:-20}.0.4
 
 networks:
   external:
@@ -56,3 +57,6 @@ networks:
     name: ${EXTERNAL_NETWORK_NAME}
   local:
     name: nextcloud-local-network
+    ipam:
+      config:
+        - subnet: 172.${SUBNET_NUMBER:-20}.0.0/16
